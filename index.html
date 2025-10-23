@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AchieveMore - Your Personal Success Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#1E293B', 100: '#334155', 200: '#475569', 300: '#64748B', 400: '#94A3B8', 
+                            500: '#0EA5E9', 600: '#0284C7', 700: '#0369A1', 800: '#075985', 900: '#0C4A6E'
+                        },
+                        secondary: {
+                            500: '#10B981', 600: '#059669', 700: '#047857'
+                        },
+                        accent: {
+                            500: '#8B5CF6', 600: '#7C3AED', 700: '#6D28D9'
+                        },
+                        dark: {
+                            50: '#0F172A', 100: '#1E293B', 200: '#334155', 300: '#475569', 400: '#64748B', 
+                            500: '#94A3B8', 600: '#CBD5E1', 700: '#E2E8F0', 800: '#F1F5F9', 900: '#F8FAFC'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-in': 'slideIn 0.3s ease-out',
+                        'bounce-subtle': 'bounceSubtle 0.6s ease-in-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-dark-50 via-dark-100 to-dark-200 min-h-screen text-white">
+    <div id="welcomeScreen" class="min-h-screen flex items-center justify-center dark-gradient text-white p-4 relative overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-primary-500/20 rounded-full animate-float"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-24 h-24 bg-secondary-500/20 rounded-full animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute top-3/4 left-1/2 w-16 h-16 bg-accent-500/20 rounded-full animate-float" style="animation-delay: 4s;"></div>
+            <div class="absolute top-1/2 right-1/3 w-20 h-20 bg-primary-600/20 rounded-full animate-pulse-slow"></div>
+        </div>
+        
+        <div class="text-center max-w-4xl mx-auto relative z-10 animate-fade-in">
+            <div class="mb-8">
+                <div id="profileContainer" class="w-32 h-32 mx-auto dark-glass rounded-full flex items-center justify-center mb-4 overflow-hidden border-4 border-primary-500/30 animate-bounce-subtle">
+                    <i id="defaultProfile" class="fas fa-user text-6xl text-primary-400 drop-shadow-lg"></i>
+                    <img id="userProfile" class="w-full h-full object-cover hidden" alt="Your Profile">
+                </div>
+                <button id="profileSetupBtn" onclick="showProfileSetup()" class="text-primary-300 hover:text-primary-200 text-sm mb-4 underline hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-user-edit mr-1"></i> Set Up Profile
+                </button>
+                <div id="welcomeGreeting" class="mb-4">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-2 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent drop-shadow-2xl">AchieveMore</h1>
+                    <p id="personalWelcome" class="text-lg sm:text-xl md:text-2xl text-dark-500 drop-shadow-lg">Your Personal Success Tracker</p>
+                </div>
+            </div>
+
+            <div class="dark-glass rounded-2xl p-6 sm:p-8 mb-8 border border-primary-500/20 animate-fade-in backdrop-blur-xl">
+                <blockquote id="welcomeQuote" class="text-base sm:text-lg md:text-xl italic mb-4 leading-relaxed text-dark-600"></blockquote>
+                <cite id="quoteAuthor" class="text-sm text-primary-400"></cite>
+            </div>
+
+            <div class="space-y-4 animate-fade-in">
+                <h2 class="text-xl sm:text-2xl mb-6 text-dark-600 drop-shadow-lg">Choose Your Path to Success</h2>
+                <div class="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                    <button onclick="selectUserType('student')" class="dark-glass hover:bg-primary-900/30 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-primary-500/20 hover:border-primary-400/40 hover:scale-105 group">
+                        <i class="fas fa-graduation-cap text-2xl sm:text-3xl mb-3 text-primary-400 group-hover:animate-wiggle"></i>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-2 text-dark-700">Student</h3>
+                        <p class="text-sm text-dark-500">Track assignments, exams, and study schedules</p>
+                    </button>
+                    <button onclick="selectUserType('professional')" class="dark-glass hover:bg-primary-900/30 rounded-xl p-4 sm:p-6 transition-all duration-300 border border-primary-500/20 hover:border-primary-400/40 hover:scale-105 group">
+                        <i class="fas fa-briefcase text-2xl sm:text-3xl mb-3 text-secondary-500 group-hover:animate-wiggle"></i>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-2 text-dark-700">Professional</h3>
+                        <p class="text-sm text-dark-500">Manage projects, meetings, and business goals</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainApp" class="hidden">
+        <nav class="bg-dark-100/90 backdrop-blur-xl shadow-xl border-b border-primary-500/20 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="flex justify-between items-center py-3 sm:py-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center justify-center shadow-lg">
+                            <i class="fas fa-trophy text-white text-sm"></i>
+                        </div>
+                        <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">AchieveMore</h1>
+                    </div>
+                    
+                    <div class="hidden md:flex items-center space-x-2">
+                        <button onclick="showView('dashboard')" class="nav-btn px-3 py-2 rounded-lg transition-all duration-300 text-dark-400 hover:text-primary-400 hover:bg-primary-900/20">
+                            <i class="fas fa-home mr-1"></i> Dashboard
+                        </button>
+                        <button onclick="showView('analytics')" class="nav-btn px-3 py-2 rounded-lg transition-all duration-300 text-dark-400 hover:text-primary-400 hover:bg-primary-900/20">
+                            <i class="fas fa-chart-bar mr-1"></i> Analytics
+                        </button>
+                        <button onclick="showView('pomodoro')" class="nav-btn px-3 py-2 rounded-lg transition-all duration-300 text-dark-400 hover:text-primary-400 hover:bg-primary-900/20">
+                            <i class="fas fa-clock mr-1"></i> Focus
+                        </button>
+                        <button onclick="showView('habits')" class="nav-btn px-3 py-2 rounded-lg transition-all duration-300 text-dark-400 hover:text-primary-400 hover:bg-primary-900/20">
+                            <i class="fas fa-calendar-check mr-1"></i> Habits
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="hidden sm:block relative group">
+                            <input type="text" id="searchInput" placeholder="Search tasks..." class="w-48 pl-8 pr-4 py-2 text-sm border border-dark-300 rounded-xl bg-dark-200/70 backdrop-blur-sm text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300" onkeyup="searchTasks(event)">
+                            <i class="fas fa-search absolute left-3 top-3 text-dark-400 text-xs group-focus-within:text-primary-500 transition-colors"></i>
+                        </div>
+                        
+                        <div id="weatherWidget" class="hidden lg:flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-secondary-600 px-3 py-2 rounded-xl text-white text-xs shadow-lg">
+                            <i class="fas fa-cloud-sun"></i>
+                            <span id="weatherTemp">22°C</span>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <span id="userTypeDisplay" class="hidden sm:block text-sm text-dark-400 capitalize font-medium"></span>
+                            <button onclick="showWelcome()" class="text-dark-400 hover:text-primary-400 transition-colors p-2 hover:bg-primary-900/20 rounded-lg">
+                                <i class="fas fa-home"></i>
+                            </button>
+                        </div>
+                        
+                        <button onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 rounded-lg bg-dark-200 flex items-center justify-center hover:scale-105 transition-all">
+                            <i class="fas fa-bars text-dark-400"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="mobileMenu" class="md:hidden hidden border-t border-primary-500/20 py-4 bg-dark-100/95 backdrop-blur-sm">
+                    <div class="flex flex-col space-y-2">
+                        <button onclick="showView('dashboard')" class="text-left px-4 py-3 text-dark-400 hover:bg-primary-900/20 rounded-lg transition-all">
+                            <i class="fas fa-home mr-2 text-primary-500"></i> Dashboard
+                        </button>
+                        <button onclick="showView('analytics')" class="text-left px-4 py-3 text-dark-400 hover:bg-primary-900/20 rounded-lg transition-all">
+                            <i class="fas fa-chart-bar mr-2 text-secondary-500"></i> Analytics
+                        </button>
+                        <button onclick="showView('pomodoro')" class="text-left px-4 py-3 text-dark-400 hover:bg-primary-900/20 rounded-lg transition-all">
+                            <i class="fas fa-clock mr-2 text-accent-500"></i> Focus Timer
+                        </button>
+                        <button onclick="showView('habits')" class="text-left px-4 py-3 text-dark-400 hover:bg-primary-900/20 rounded-lg transition-all">
+                            <i class="fas fa-calendar-check mr-2 text-purple-500"></i> Habit Tracker
+                        </button>
+                        <div class="px-4 py-2">
+                            <input type="text" placeholder="Search tasks..." class="w-full pl-8 pr-4 py-2 text-sm border border-dark-300 rounded-lg bg-dark-200 text-white" onkeyup="searchTasks(event)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div id="dashboardView" class="max-w-7xl mx-auto p-4 lg:p-6">
+            <div class="grid lg:grid-cols-4 gap-4 lg:gap-6">
+                <div class="lg:col-span-3 space-y-4 lg:space-y-6">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+                        <div class="bg-gradient-to-br from-primary-600 to-primary-700 text-white rounded-xl shadow-lg p-4 hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs opacity-80">Today</p>
+                                    <p id="todayCount" class="text-lg font-bold">0</p>
+                                </div>
+                                <i class="fas fa-calendar-day text-xl opacity-70"></i>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-secondary-600 to-secondary-700 text-white rounded-xl shadow-lg p-4 hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs opacity-80">Streak</p>
+                                    <p id="streakCount" class="text-lg font-bold">0</p>
+                                </div>
+                                <i class="fas fa-fire text-xl opacity-70"></i>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-accent-600 to-accent-700 text-white rounded-xl shadow-lg p-4 hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs opacity-80">Total</p>
+                                    <p id="totalCount" class="text-lg font-bold">0</p>
+                                </div>
+                                <i class="fas fa-tasks text-xl opacity-70"></i>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-yellow-600 to-orange-600 text-white rounded-xl shadow-lg p-4 hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs opacity-80">Success</p>
+                                    <p id="successPercent" class="text-lg font-bold">0%</p>
+                                </div>
+                                <i class="fas fa-trophy text-xl opacity-70"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-4 lg:p-6">
+                        <h2 class="text-lg lg:text-xl font-semibold mb-4 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Quick Actions</h2>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+                            <button onclick="showAddTaskModal()" class="bg-gradient-to-r from-primary-500 to-primary-600 text-white p-3 lg:p-4 rounded-xl transition-all duration-300 flex flex-col items-center space-y-2 hover:scale-105 hover:shadow-lg group">
+                                <i class="fas fa-plus text-lg group-hover:animate-bounce-subtle"></i>
+                                <span class="text-xs lg:text-sm">Add Task</span>
+                            </button>
+                            <button onclick="showUploadModal()" class="bg-gradient-to-r from-secondary-500 to-green-600 text-white p-3 lg:p-4 rounded-xl transition-all duration-300 flex flex-col items-center space-y-2 hover:scale-105 hover:shadow-lg group">
+                                <i class="fas fa-upload text-lg group-hover:animate-bounce-subtle"></i>
+                                <span class="text-xs lg:text-sm" id="uploadButtonText">Upload</span>
+                            </button>
+                            <button onclick="showTemplatesModal()" class="bg-gradient-to-r from-accent-500 to-purple-600 text-white p-3 lg:p-4 rounded-xl transition-all duration-300 flex flex-col items-center space-y-2 hover:scale-105 hover:shadow-lg group">
+                                <i class="fas fa-bookmark text-lg group-hover:animate-bounce-subtle"></i>
+                                <span class="text-xs lg:text-sm">Templates</span>
+                            </button>
+                            <button onclick="exportTasks()" class="bg-gradient-to-r from-yellow-500 to-orange-600 text-white p-3 lg:p-4 rounded-xl transition-all duration-300 flex flex-col items-center space-y-2 hover:scale-105 hover:shadow-lg group">
+                                <i class="fas fa-download text-lg group-hover:animate-bounce-subtle"></i>
+                                <span class="text-xs lg:text-sm">Export</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-4 lg:p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg lg:text-xl font-semibold bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Today's Tasks</h2>
+                            <div class="flex space-x-2">
+                                <button onclick="sortTasks('priority')" class="text-xs px-3 py-1 rounded-full bg-primary-900/30 text-primary-400 hover:bg-primary-800/40 transition-all">
+                                    Priority
+                                </button>
+                                <button onclick="sortTasks('time')" class="text-xs px-3 py-1 rounded-full bg-primary-900/30 text-primary-400 hover:bg-primary-800/40 transition-all">
+                                    Time
+                                </button>
+                            </div>
+                        </div>
+                        <div id="todaysTasks" class="space-y-3">
+                            </div>
+                        <div id="emptyState" class="text-center py-8 text-dark-400">
+                            <i class="fas fa-tasks text-3xl mb-3 text-primary-400"></i>
+                            <p>No tasks for today. Add your first task to get started!</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-4 lg:p-6">
+                        <h2 class="text-lg lg:text-xl font-semibold mb-4 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Today's Progress</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-dark-300">Tasks Completed</span>
+                                    <span id="progressText" class="text-sm text-dark-400">0/0</span>
+                                </div>
+                                <div class="w-full bg-dark-200 rounded-full h-3 overflow-hidden">
+                                    <div id="progressBar" class="bg-gradient-to-r from-primary-500 to-secondary-500 h-3 rounded-full transition-all duration-700" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div id="achievementBadges" class="flex flex-wrap gap-2">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 lg:space-y-6">
+                    <div class="bg-gradient-to-br from-purple-600 to-pink-700 rounded-xl shadow-xl p-4 lg:p-6 text-white">
+                        <h2 class="text-lg font-semibold mb-3 flex items-center">
+                            <i class="fas fa-brain mr-2"></i>AI Suggestion
+                        </h2>
+                        <p id="aiSuggestion" class="text-sm leading-relaxed">
+                            Based on your productivity patterns, consider scheduling your most important tasks between 9-11 AM when you're most focused.
+                        </p>
+                    </div>
+
+                    <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-4 lg:p-6">
+                        <h2 class="text-lg font-semibold mb-4 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Upcoming</h2>
+                        <div id="upcomingEvents" class="space-y-3">
+                            </div>
+                        <div id="noUpcoming" class="text-center py-4 text-dark-400">
+                            <i class="fas fa-calendar text-2xl mb-2 text-primary-400"></i>
+                            <p class="text-sm">No upcoming events</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-primary-600 via-secondary-600 to-accent-600 rounded-xl shadow-xl p-4 lg:p-6 text-white">
+                        <h2 class="text-lg font-semibold mb-3 flex items-center">
+                            <i class="fas fa-quote-left mr-2"></i>Daily Motivation
+                        </h2>
+                        <blockquote id="dailyQuote" class="text-sm italic mb-2 leading-relaxed"></blockquote>
+                        <cite id="dailyQuoteAuthor" class="text-xs opacity-80"></cite>
+                    </div>
+
+                    <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-4 lg:p-6">
+                        <h2 class="text-lg font-semibold mb-4 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Quick Focus</h2>
+                        <div class="text-center">
+                            <div id="miniTimer" class="text-2xl font-bold text-primary-400 mb-3">25:00</div>
+                            <button onclick="startQuickPomodoro()" class="w-full bg-gradient-to-r from-primary-500 to-secondary-500 hover:shadow-lg text-white py-2 rounded-xl transition-all duration-300 hover:scale-105">
+                                <i class="fas fa-play mr-2"></i>Start Focus
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-yellow-500/20 p-4 lg:p-6">
+                        <h2 class="text-lg font-semibold mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent flex items-center">
+                            <i class="fas fa-bell mr-2"></i>Active Reminders
+                        </h2>
+                        <div id="remindersPanel" class="space-y-2">
+                            </div>
+                        <div id="noReminders" class="text-center py-4 text-dark-400">
+                            <i class="fas fa-bell-slash text-2xl mb-2 text-yellow-400"></i>
+                            <p class="text-sm">No active reminders</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="habitsView" class="hidden max-w-7xl mx-auto p-4 lg:p-6">
+            <h1 class="text-2xl lg:text-3xl font-bold mb-6 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Habit Tracker</h1>
+            
+            <div class="grid lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold text-white">Daily Habits</h3>
+                        <button onclick="addHabit()" class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-colors">
+                            <i class="fas fa-plus mr-1"></i>Add Habit
+                        </button>
+                    </div>
+                    <div id="habitsList" class="space-y-4">
+                        </div>
+                </div>
+
+                <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-white">This Month</h3>
+                    <div id="habitCalendar" class="grid grid-cols-7 gap-1">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="analyticsView" class="hidden max-w-7xl mx-auto p-4 lg:p-6">
+            <h1 class="text-2xl lg:text-3xl font-bold mb-6 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Analytics & Insights</h1>
+            
+            <div class="grid lg:grid-cols-2 gap-6">
+                <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Weekly Overview</h3>
+                    <div id="weeklyChart" class="space-y-3">
+                        </div>
+                </div>
+
+                <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Task Categories</h3>
+                    <div id="categoryChart" class="space-y-3">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pomodoroView" class="hidden max-w-4xl mx-auto p-4 lg:p-6">
+            <div class="bg-dark-100/80 backdrop-blur-xl rounded-xl shadow-xl border border-primary-500/20 p-8 text-center">
+                <h1 class="text-3xl font-bold mb-8 bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Focus Timer</h1>
+                
+                <div class="mb-8">
+                    <div id="pomodoroTimer" class="text-6xl font-bold text-primary-400 mb-4">25:00</div>
+                    <div id="pomodoroStatus" class="text-lg text-dark-400">Ready to focus</div>
+                </div>
+                
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button id="startPomodoroBtn" onclick="startPomodoro()" class="bg-gradient-to-r from-primary-500 to-secondary-500 hover:shadow-lg text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105">
+                        <i class="fas fa-play mr-2"></i>Start
+                    </button>
+                    <button id="pausePomodoroBtn" onclick="pausePomodoro()" class="bg-gradient-to-r from-yellow-500 to-orange-500 hover:shadow-lg text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hidden">
+                        <i class="fas fa-pause mr-2"></i>Pause
+                    </button>
+                    <button onclick="resetPomodoro()" class="bg-gradient-to-r from-gray-500 to-gray-600 hover:shadow-lg text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105">
+                        <i class="fas fa-stop mr-2"></i>Reset
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 max-w-md mx-auto">
+                    <button onclick="setFocusTime(25)" class="py-2 px-4 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors">25m</button>
+                    <button onclick="setFocusTime(45)" class="py-2 px-4 rounded-lg bg-dark-200 text-dark-300 hover:bg-dark-300 hover:text-white transition-colors">45m</button>
+                    <button onclick="setFocusTime(60)" class="py-2 px-4 rounded-lg bg-dark-200 text-dark-300 hover:bg-dark-300 hover:text-white transition-colors">60m</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="uploadModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-dark-100/95 backdrop-blur-xl rounded-xl shadow-2xl max-w-md w-full p-6 animate-fade-in border border-primary-500/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Upload Schedule</h3>
+                <button onclick="closeUploadModal()" class="text-dark-500 hover:text-dark-300 hover:scale-110 transition-all">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div id="dropZone" class="drop-zone border-2 border-dashed border-primary-400 rounded-lg p-8 text-center hover:border-primary-300 transition-all duration-300">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-primary-400 mb-3"></i>
+                    <p class="text-dark-400 mb-2">Drop your files here or click to browse</p>
+                    <p class="text-sm text-dark-500 mb-4">Supports: PDF, DOC, DOCX, TXT, CSV, JPG, PNG, HEIC</p>
+                    <input type="file" id="scheduleFile" accept=".pdf,.doc,.docx,.txt,.csv,.jpg,.jpeg,.png,.heic" multiple class="hidden" onchange="handleFileUpload(event)">
+                    <button onclick="document.getElementById('scheduleFile').click()" class="bg-gradient-to-r from-primary-500 to-secondary-500 hover:shadow-lg text-white px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105">
+                        <i class="fas fa-folder-open mr-2"></i>Choose Files
+                    </button>
+                </div>
+                <div id="uploadStatus" class="hidden p-3 rounded-lg"></div>
+                <div id="uploadPreview" class="hidden space-y-2">
+                    <h4 class="text-sm font-medium text-dark-300">Selected Files:</h4>
+                    <div id="fileList" class="space-y-1"></div>
+                </div>
+                <div id="analysisProgress" class="hidden">
+                    <div class="mb-2">
+                        <div class="flex justify-between text-sm text-dark-400 mb-1">
+                            <span>Analyzing Schedule...</span>
+                            <span id="analysisPercent">0%</span>
+                        </div>
+                        <div class="w-full bg-dark-200 rounded-full h-2">
+                            <div id="analysisBar" class="bg-gradient-to-r from-primary-500 to-secondary-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div id="analysisSteps" class="text-xs text-dark-500 space-y-1">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addTaskModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-dark-100/95 backdrop-blur-xl rounded-xl shadow-2xl max-w-md w-full p-6 animate-fade-in border border-primary-500/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Add New Task</h3>
+                <button onclick="closeAddTaskModal()" class="text-dark-500 hover:text-dark-300 hover:scale-110 transition-all">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="addTask(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-dark-300 mb-2">Task Title</label>
+                        <input type="text" id="taskTitle" required class="w-full p-3 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-dark-200 text-white text-base transition-all">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-dark-300 mb-2">Category</label>
+                            <select id="taskCategory" class="w-full p-3 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-dark-200 text-white text-base">
+                                <option value="work">Work</option>
+                                <option value="study">Study</option>
+                                <option value="personal">Personal</option>
+                                <option value="health">Health</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-dark-300 mb-2">Priority</label>
+                            <select id="taskPriority" class="w-full p-3 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-dark-200 text-white text-base">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-dark-300 mb-2">Due Date & Time</label>
+                        <input type="datetime-local" id="taskDueDate" class="w-full p-3 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-dark-200 text-white text-base">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-dark-300 mb-2">Estimated Duration (minutes)</label>
+                        <input type="number" id="taskDuration" min="5" max="480" value="30" class="w-full p-3 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-dark-200 text-white text-base">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-dark-300 mb-2">
+                            <input type="checkbox" id="taskReminder" class="mr-2"> Set Reminder
+                        </label>
+                        <div id="reminderOptions" class="hidden space-y-2">
+                            <select id="reminderTime" class="w-full p-2 border border-dark-300 rounded-lg bg-dark-200 text-white text-sm">
+                                <option value="5">5 minutes before</option>
+                                <option value="15">15 minutes before</option>
+                                <option value="30">30 minutes before</option>
+                                <option value="60">1 hour before</option>
+                                <option value="1440">1 day before</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="closeAddTaskModal()" class="px-4 py-2 text-dark-400 hover:bg-dark-200 rounded-lg transition-colors">Cancel</button>
+                    <button type="submit" class="px-6 py-2 bg-gradient-to-r from-primary-500 to-secondary-500 hover:shadow-lg text-white rounded-lg transition-all duration-300 hover:scale-105">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="profileModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-dark-100/95 backdrop-blur-xl rounded-xl shadow-2xl max-w-md w-full p-6 animate-fade-in border border-primary-500/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Set Up Your Profile</h3>
+                <button onclick="closeProfileModal()" class="text-dark-500 hover:text-dark-300 hover:scale-110 transition-all">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-dark-300 mb-2">Your Name</label>
+                    <input type="text" id="userName" placeholder="Enter your name" class="w-full p-3 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-dark-200 text-white text-base">
+                </div>
+                
+                <div>
+                    <h4 class="text-sm font-medium text-dark-300 mb-3">Profile Picture</h4>
+                    <div class="border-2 border-dashed border-primary-400 rounded-lg p-6 text-center hover:border-primary-300 transition-all duration-300">
+                        <i class="fas fa-camera text-2xl text-primary-400 mb-2"></i>
+                        <p class="text-sm text-dark-400 mb-3">Upload your profile picture</p>
+                        <input type="file" id="profileFile" accept="image/*" class="hidden" onchange="handleProfileUpload(event)">
+                        <button onclick="document.getElementById('profileFile').click()" class="bg-gradient-to-r from-primary-500 to-secondary-500 hover:shadow-lg text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover:scale-105">
+                            Choose Image
+                        </button>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-sm font-medium text-dark-300 mb-3">Or Enter Image URL</h4>
+                    <div class="space-y-3">
+                        <input type="url" id="profileUrl" placeholder="https://example.com/your-photo.jpg" class="w-full p-3 border border-dark-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-dark-200 text-white text-base">
+                        <button onclick="handleProfileUrl()" class="w-full bg-gradient-to-r from-secondary-500 to-accent-500 hover:shadow-lg text-white py-2 rounded-lg transition-all duration-300 hover:scale-105">
+                            Use URL
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="profilePreview" class="hidden">
+                    <h4 class="text-sm font-medium text-dark-300 mb-3">Preview</h4>
+                    <div class="flex items-center justify-center">
+                        <div class="w-24 h-24 border border-dark-300 rounded-full overflow-hidden">
+                            <img id="previewProfileImage" class="w-full h-full object-cover" alt="Profile preview">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="profileStatus" class="hidden p-3 rounded-lg text-sm"></div>
+                
+                <button onclick="saveProfile()" class="w-full bg-gradient-to-r from-primary-500 to-secondary-500 hover:shadow-lg text-white py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105">
+                    Save Profile
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="templatesModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-dark-100/95 backdrop-blur-xl rounded-xl shadow-2xl max-w-2xl w-full p-6 animate-fade-in border border-primary-500/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent">Task Templates</h3>
+                <button onclick="closeTemplatesModal()" class="text-dark-500 hover:text-dark-300 hover:scale-110 transition-all">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="templatesGrid">
+                </div>
+        </div>
+    </div>
+
+    <div id="celebrationModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-dark-100/95 backdrop-blur-xl rounded-xl shadow-2xl max-w-md w-full p-6 text-center animate-bounce-subtle border border-primary-500/30">
+            <div class="text-6xl mb-4">🎉</div>
+            <h3 class="text-2xl font-bold bg-gradient-to-r from-primary-400 to-secondary-500 bg-clip-text text-transparent mb-3">Congratulations!</h3>
+            <p id="celebrationMessage" class="text-dark-400 mb-4"></p>
+            <blockquote id="celebrationQuote" class="text-sm italic text-primary-400 mb-4 p-4 bg-dark-200 rounded-lg"></blockquote>
+            <button onclick="closeCelebrationModal()" class="bg-gradient-to-r from-primary-500 to-secondary-500 hover:shadow-lg text-white px-6 py-2 rounded-lg transition-all duration-300 hover:scale-105">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <div id="notificationContainer" class="fixed top-4 right-4 z-50 space-y-2">
+        </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
